@@ -1,0 +1,44 @@
+global:
+  imagePullSecrets:
+    - name: dockerhub-login # futuresecureai-registry-cred
+
+  defaultStorageClass: default
+  storageClass: default
+
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+
+  existingSecrets: fsai-os-global-secrets
+
+worldStatesCitiesMigration:
+  secretName: fsai-os-global-secrets
+
+fsaiosapp:
+  configMap:
+    # Controls Microsoft Graph AD user search functionality.
+    # When enabled (true): The application detects SSO users via Microsoft Graph API.
+    #                    Requires Microsoft Graph API credentials to be configured in FSAI O/S API.
+    # When disabled (false): Manual SSO selection is enabled via checkboxes during user creation.
+    #                     The application cannot automatically detect SSO status.
+    ENABLE_AD_SEARCH: "false"
+    USE_CASE_TEAMS_MAX_TAGS: "10"
+    NEXT_PUBLIC_USE_CASE_TEAMS_MAX_TAGS: "10"
+
+fsaiflow:
+  configMap:
+    S3_BUCKET_NAME: flowise
+    S3_REGION: ap-southeast-2
+    S3_ENDPOINT_URL: https://fsai-minio-hl.test-customer.svc.cluster.local:9000
+    S3_FORCE_PATH_STYLE: "false"
+    NODE_TLS_REJECT_UNAUTHORIZED: "0"
+
+flowgen:
+  configMap:
+    STORAGE_TYPE: s3
+    S3_STORAGE_BUCKET_NAME: flowgen
+    S3_STORAGE_REGION: ap-southeast-2
+    S3_ENDPOINT_URL: https://fsai-minio-hl.test-customer.svc.cluster.local:9000
+    S3_FORCE_PATH_STYLE: "true"
+    S3_STORAGE_FOLDER_PREFIX: flow-gen-blob-storage
+    NODE_TLS_REJECT_UNAUTHORIZED: "0"

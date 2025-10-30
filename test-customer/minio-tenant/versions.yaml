@@ -1,0 +1,5 @@
+default:
+  release_name: minio-tenant
+  chart: minio/tenant
+  version: 7.1.1 # appVersion: v7.1.1
+  namespace: test-customer

@@ -1,0 +1,10 @@
+# load in yaml anchors for helmfiles `Release Template` feature
+{{ $gitDir := (exec "git" (list "rev-parse" "--show-toplevel") | trim) }}
+
+releases:
+  - name: argocd-applications
+    namespace: argocd
+    chart: "{{ $gitDir }}/helmfile/argocd-meta/applications/helm"
+    values:
+      - ./argocd-apps.yaml.gotmpl
+

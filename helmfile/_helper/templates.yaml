@@ -1,0 +1,34 @@
+templates:
+  common_releases: &common_releases
+    chart: >-
+      {{ $target := "chart" }}
+      {{ $versionYaml := readFile "./versions.yaml" | fromYaml }}
+      {{ $clusterKey := print ( requiredEnv "CLUSTER" ) "." $target }}
+      {{ $defaultKey := print "default" "." $target }}
+      {{ $versionYaml | get $clusterKey ( $versionYaml | get $defaultKey ) }}
+    name: >-
+      {{ $target := "release_name" }}
+      {{ $versionYaml := readFile "./versions.yaml" | fromYaml }}
+      {{ $clusterKey := print ( requiredEnv "CLUSTER" ) "." $target }}
+      {{ $defaultKey := print "default" "." $target }}
+      {{ $versionYaml | get $clusterKey ( $versionYaml | get $defaultKey ) }}
+    namespace: >-
+      {{ $target := "namespace" }}
+      {{ $versionYaml := readFile "./versions.yaml" | fromYaml }}
+      {{ $clusterKey := print ( requiredEnv "CLUSTER" ) "." $target }}
+      {{ $defaultKey := print "default" "." $target }}
+      {{ $versionYaml | get $clusterKey ( $versionYaml | get $defaultKey ) }}
+    version: >-
+      {{ $target := "version" }}
+      {{ $versionYaml := readFile "./versions.yaml" | fromYaml }}
+      {{ $clusterKey := print ( requiredEnv "CLUSTER" ) "." $target }}
+      {{ $defaultKey := print "default" "." $target }}
+      {{ $versionYaml | get $clusterKey ( $versionYaml | get $defaultKey ) }}
+
+  common_namespace: &common_namespace
+    namespace: >-
+      {{ $target := "namespace" }}
+      {{ $versionYaml := readFile "./versions.yaml" | fromYaml }}
+      {{ $clusterKey := print ( requiredEnv "CLUSTER" ) "." $target }}
+      {{ $defaultKey := print "default" "." $target }}
+      {{ $versionYaml | get $clusterKey ( $versionYaml | get $defaultKey ) }}

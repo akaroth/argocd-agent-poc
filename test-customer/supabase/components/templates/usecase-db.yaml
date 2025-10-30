@@ -1,0 +1,11 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: usecase-test-customer-staging
+spec:
+  cluster:
+    name: supabase-supabase-db 
+  name: usecase-test-customer-staging 
+  owner: postgres
+  ensure: present
+

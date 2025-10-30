@@ -1,0 +1,40 @@
+{{- $valuesCommon := readFile "metadata.yaml" | fromYaml }}
+
+manifests:
+  {{ $valuesCommon.customer.name }}-apps:
+    owner: {{ $valuesCommon.global.owner }}
+    project: {{ $valuesCommon.customer.name }}
+    namespace: {{ $valuesCommon.customer.name }}
+    source:
+      repoURL: {{ $valuesCommon.global.repository.url }}
+      targetRevision: {{ $valuesCommon.global.repository.branch }}
+    applications:
+      - name: {{ $valuesCommon.customer.name }}-secrets
+        path:  helmfile/fsai-os/{{ $valuesCommon.customer.name }}/secrets
+        spec:
+          syncPolicy:
+            automated: {}
+            syncOptions:
+              - ServerSideApply=true
+      - name: {{ $valuesCommon.customer.name }}-fsai-os
+        path:  helmfile/fsai-os/{{ $valuesCommon.customer.name }}/fsai-os
+        spec:
+          syncPolicy:
+            automated: {}
+            syncOptions:
+              - ServerSideApply=true
+      - name: {{ $valuesCommon.customer.name }}-minio-tenant
+        path:  helmfile/fsai-os/{{ $valuesCommon.customer.name }}/minio-tenant
+        spec:
+          syncPolicy:
+            automated: {}
+            syncOptions:
+              - ServerSideApply=true
+      - name: {{ $valuesCommon.customer.name }}-supabase
+        path:  helmfile/fsai-os/{{ $valuesCommon.customer.name }}/supabase
+        spec:
+          syncPolicy:
+            automated: {}
+            syncOptions:
+              - ServerSideApply=true
+

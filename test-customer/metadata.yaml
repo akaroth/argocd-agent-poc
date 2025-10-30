@@ -1,0 +1,9 @@
+customer:
+  name: test-customer
+
+global:
+  # Global configuration that can be shared across all components
+  owner: devops-sre
+  repository:
+    url: https://github.com/Future-Secure-AI/infrastructure-saas-customer-platform
+    branch: main

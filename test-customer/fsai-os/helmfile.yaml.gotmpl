@@ -1,0 +1,50 @@
+# load in yaml anchors for helmfiles `Release Template` feature
+{{ $gitDir := (exec "git" (list "rev-parse" "--show-toplevel") | trim) }}
+{{ readFile (printf "%s/helmfile/_helper/templates.yaml" $gitDir) }}
+{{- $valuesCommon := readFile "../metadata.yaml" | fromYaml }}
+
+{{ $customerName :=  $valuesCommon.customer.name }}
+releases:
+  - <<: *common_releases
+    values:
+      - values/common.yaml
+      - global:
+          domain:
+            {{ $domainSuffix := printf "%s-%s" $customerName (requiredEnv "ENVIRONMENT") }}
+            baseDomain: {{ requiredEnv "BASE_DOMAIN" }}
+            subdomains:
+              fsaiosapp: fsaios-{{ $domainSuffix }}
+              fsaiflow: fsaiflow-{{ $domainSuffix }}
+              flowgen: flowgen-{{ $domainSuffix }}
+              flowsee: flowsee-{{ $domainSuffix }}
+          supabase:
+            namespace: {{ $customerName }}
+      - fsaiosapp:
+          ingress:
+            annotations:
+              external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+              external-dns.alpha.kubernetes.io/hostname: "fsaios-{{ $domainSuffix }}.{{ requiredEnv "BASE_DOMAIN" }}"
+            tls:
+              enabled: false
+      - fsaiflow:
+          ingress:
+            annotations:
+              external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+              external-dns.alpha.kubernetes.io/hostname: "fsaiflow-{{ $domainSuffix }}.{{ requiredEnv "BASE_DOMAIN" }}"
+            tls:
+              enabled: false
+      - flowgen:
+          ingress:
+            annotations:
+              external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+              external-dns.alpha.kubernetes.io/hostname: "flowgen-{{ $domainSuffix }}.{{ requiredEnv "BASE_DOMAIN" }}"
+            tls:
+              enabled: false
+      - flowsee:
+          ingress:
+            annotations:
+              external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+              external-dns.alpha.kubernetes.io/hostname: "flowsee-{{ $domainSuffix }}.{{ requiredEnv "BASE_DOMAIN" }}"
+            tls:
+              enabled: false
+

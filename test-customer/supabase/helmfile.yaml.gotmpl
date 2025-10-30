@@ -1,0 +1,33 @@
+# load in yaml anchors for helmfiles `Release Template` feature
+{{ $gitDir := (exec "git" (list "rev-parse" "--show-toplevel") | trim) }}
+{{ readFile (printf "%s/helmfile/_helper/templates.yaml" $gitDir) }}
+{{- $valuesCommon := readFile "../metadata.yaml" | fromYaml }}
+
+{{ $customerName :=  $valuesCommon.customer.name }}
+releases:
+  - <<: *common_releases
+    values:
+      - values/common.yaml
+      - global:
+          domain:
+            baseDomain: {{ requiredEnv "BASE_DOMAIN" }}
+            {{ $supabaseDomain := printf "supabase-%s-%s" $customerName (requiredEnv "ENVIRONMENT") }}
+            {{ $fsaiosbaseDomain := printf "fsaios-%s-%s" $customerName (requiredEnv "ENVIRONMENT") }}
+            subdomains:
+              supabase: {{ $supabaseDomain }}
+              fsaiosapp: {{ $fsaiosbaseDomain }}
+      - kong:
+          ingress:
+            annotations:
+              external-dns.alpha.kubernetes.io/hostname: "{{ $supabaseDomain }}.{{ requiredEnv "BASE_DOMAIN" }}"
+              external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+            hosts:
+              - host: "{{ $supabaseDomain }}" # dummy?
+                paths:
+                  - path: /
+                    pathType: Prefix
+            tls: []
+  - <<: *common_namespace
+    name: addon-components
+    chart: ./components
+

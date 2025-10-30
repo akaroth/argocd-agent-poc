@@ -1,0 +1,55 @@
+# load in yaml anchors for helmfiles `Release Template` feature
+{{ $gitDir := (exec "git" (list "rev-parse" "--show-toplevel") | trim) }}
+{{ readFile (printf "%s/helmfile/_helper/templates.yaml" $gitDir) }}
+{{- $valuesCommon := readFile "../metadata.yaml" | fromYaml }}
+
+repositories:
+  - name: minio
+    url: https://operator.min.io/
+
+{{ $customerName := $valuesCommon.customer.name }}
+releases:
+  - <<: *common_releases
+    values:
+      - tenant:
+          name: fsai-minio
+          pools:
+            - servers: 1
+              name: pool-0
+              volumesPerServer: 1
+              size: 10Gi
+
+      - ingress:
+          api:
+            enabled: true
+            ingressClassName: nginx
+            labels:
+              check: argo-check
+            annotations:
+              {{ $minioApi := printf "minio-api-%s-%s.%s" $customerName (requiredEnv "ENVIRONMENT") (requiredEnv "BASE_DOMAIN") }}
+              external-dns.alpha.kubernetes.io/hostname: {{ $minioApi }}
+              external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+              nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+              nginx.ingress.kubernetes.io/backend-protocol: https
+              nginx.ingress.kubernetes.io/upstream-vhost: {{ $minioApi }}
+
+            host: {{ $minioApi }}
+            tls:
+              - hosts:
+                - {{ $minioApi }}
+
+          console:
+            enabled: true
+            ingressClassName: nginx
+            annotations:
+              {{ $minioConsole := printf "minio-console-%s-%s.%s" $customerName (requiredEnv "ENVIRONMENT") (requiredEnv "BASE_DOMAIN") }}
+              external-dns.alpha.kubernetes.io/hostname: {{ $minioConsole }}
+              external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+              nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+              nginx.ingress.kubernetes.io/backend-protocol: https
+              nginx.ingress.kubernetes.io/upstream-vhost: {{ $minioConsole }}
+            host: {{ $minioConsole }}
+            tls:
+              - hosts:
+                - {{ $minioConsole }}
+

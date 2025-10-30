@@ -1,0 +1,50 @@
+global:
+  imagePullSecrets:
+    - name: dockerhub-login # futuresecureai-registry-cred
+
+  existingSecretsName: fsai-os-global-secrets
+
+  ingress:
+    ingressClassName: nginx
+
+db:
+  enabled: true
+  storage:
+    storageClassName: default
+  size: 1Gi
+
+studio:
+  environment:
+    SUPABASE_PUBLIC_URL: http://localhost:8000/
+
+kong:
+  enabled: true
+  ingress:
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /
+      nginx.ingress.kubernetes.io/client-header-buffer-size: "64k"
+      nginx.ingress.kubernetes.io/proxy-buffer-size: "64k"
+      nginx.ingress.kubernetes.io/proxy-buffers-number: "8"
+      nginx.ingress.kubernetes.io/proxy-busy-buffers-size: "64k"
+      nginx.ingress.kubernetes.io/large-client-header-buffers: "4 64k"
+      nginx.ingress.kubernetes.io/http2-max-field-size: "64k"
+      nginx.ingress.kubernetes.io/http2-max-header-size: "256k"
+
+config:
+  smtp:
+    username: platform@futuresecure.ai
+    adminEmail: platform@futuresecure.ai
+    host: mail.smtp2go.com
+    port: "465"
+    senderName: platform@futuresecure.ai
+  jwt:
+    secretRef: fsai-os-global-secrets
+    secretRefKey:
+      anonKey: SUPABASE_ANON_KEY
+
+supavisor:
+  enabled: false
+
+ssoSettings:
+  enabled: false

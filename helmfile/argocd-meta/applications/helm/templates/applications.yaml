@@ -1,0 +1,26 @@
+{{- range $fauxKey, $pv := .Values.manifests }}
+{{- range $pv.applications }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .name }}
+  namespace: argocd
+  {{- with .labels }}
+  labels:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  annotations:
+    helm.sh/resource-policy: keep
+    {{- if .annotations -}}{{- .annotations | toYaml | nindent 4 }}{{- end }}
+spec:
+  project: {{ $pv.project }}
+  source:
+    path: {{ .path }}
+    {{- toYaml $pv.source | nindent 4 }}
+  {{- if .spec }}{{- .spec | toYaml | nindent 2 }}{{- end }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ .namespace | default $pv.namespace }}
+{{- end }}
+{{- end }}
