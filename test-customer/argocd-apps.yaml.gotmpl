@@ -37,6 +37,7 @@ manifests:
             syncOptions:
               - ServerSideApply=true
       - name: {{ $valuesCommon.customer.name }}-fsai-os
+        namespace: fsai-os
         path:  {{ $valuesCommon.customer.name }}/fsai-os
         spec:
           syncPolicy:
@@ -51,6 +52,7 @@ manifests:
             syncOptions:
               - ServerSideApply=true
       - name: {{ $valuesCommon.customer.name }}-supabase
+        namespace: fsai-os
         path:  {{ $valuesCommon.customer.name }}/supabase
         spec:
           syncPolicy:
