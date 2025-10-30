@@ -5,5 +5,5 @@ global:
   # Global configuration that can be shared across all components
   owner: devops-sre
   repository:
-    url: https://github.com/Future-Secure-AI/infrastructure-saas-customer-platform
+    url: https://github.com/akaroth/argocd-agent-poc
     branch: main
