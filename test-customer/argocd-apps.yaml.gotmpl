@@ -9,6 +9,26 @@ manifests:
       repoURL: {{ $valuesCommon.global.repository.url }}
       targetRevision: {{ $valuesCommon.global.repository.branch }}
     applications:
+      # Platform Operators (deploy first)
+      - name: {{ $valuesCommon.customer.name }}-cnpg-operator
+        namespace: cnpg-system
+        path:  {{ $valuesCommon.customer.name }}/cnpg-system
+        spec:
+          syncPolicy:
+            automated: {}
+            syncOptions:
+              - CreateNamespace=true
+              - ServerSideApply=true
+      - name: {{ $valuesCommon.customer.name }}-minio-operator
+        namespace: minio-system
+        path:  {{ $valuesCommon.customer.name }}/minio-operator
+        spec:
+          syncPolicy:
+            automated: {}
+            syncOptions:
+              - CreateNamespace=true
+              - ServerSideApply=true
+      # Customer Applications
       - name: {{ $valuesCommon.customer.name }}-secrets
         path:  {{ $valuesCommon.customer.name }}/secrets
         spec:

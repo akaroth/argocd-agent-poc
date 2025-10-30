@@ -1,0 +1,6 @@
+default:
+  release_name: cnpg
+  chart: cnpg/cloudnative-pg
+  version: 0.26.0 # appVersion: 1.25.0
+  namespace: cnpg-system
+  installed: true

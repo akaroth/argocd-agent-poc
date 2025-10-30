@@ -1,0 +1,14 @@
+# load in yaml anchors for helmfiles `Release Template` feature
+{{ $gitDir := (exec "git" (list "rev-parse" "--show-toplevel") | trim) }}
+{{ readFile (printf "%s/helmfile/_helper/templates.yaml" $gitDir) }}
+
+repositories:
+  - name: minio
+    url: https://operator.min.io/
+
+releases:
+  - <<: *common_releases
+    values:
+      - operator:
+          additionalLabels:
+            futuresecure.ai/owner: devops-sre
