@@ -3,7 +3,7 @@ customer:
 
 global:
   # Global configuration that can be shared across all components
-  owner: devops-sre
+  owner: akaroth
   repository:
     url: https://github.com/akaroth/argocd-agent-poc
     branch: main
