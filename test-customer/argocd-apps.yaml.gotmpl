@@ -10,28 +10,28 @@ manifests:
       targetRevision: {{ $valuesCommon.global.repository.branch }}
     applications:
       - name: {{ $valuesCommon.customer.name }}-secrets
-        path:  helmfile/fsai-os/{{ $valuesCommon.customer.name }}/secrets
+        path:  {{ $valuesCommon.customer.name }}/secrets
         spec:
           syncPolicy:
             automated: {}
             syncOptions:
               - ServerSideApply=true
       - name: {{ $valuesCommon.customer.name }}-fsai-os
-        path:  helmfile/fsai-os/{{ $valuesCommon.customer.name }}/fsai-os
+        path:  {{ $valuesCommon.customer.name }}/fsai-os
         spec:
           syncPolicy:
             automated: {}
             syncOptions:
               - ServerSideApply=true
       - name: {{ $valuesCommon.customer.name }}-minio-tenant
-        path:  helmfile/fsai-os/{{ $valuesCommon.customer.name }}/minio-tenant
+        path:  {{ $valuesCommon.customer.name }}/minio-tenant
         spec:
           syncPolicy:
             automated: {}
             syncOptions:
               - ServerSideApply=true
       - name: {{ $valuesCommon.customer.name }}-supabase
-        path:  helmfile/fsai-os/{{ $valuesCommon.customer.name }}/supabase
+        path:  {{ $valuesCommon.customer.name }}/supabase
         spec:
           syncPolicy:
             automated: {}
