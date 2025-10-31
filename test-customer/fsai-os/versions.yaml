@@ -1,5 +1,5 @@
 default:
   release_name: fsai-os
   chart: oci://registry-1.docker.io/futuresecureai/fsai-os
-  version: 0.2.5-alpha # appVersion: v1.10.0
+  version: 0.3.4 # appVersion: v1.10.0
   namespace: fsai-os
