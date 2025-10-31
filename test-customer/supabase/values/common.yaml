@@ -1,6 +1,6 @@
 global:
   imagePullSecrets:
-    - name: futuresecureai-registry-cred # futuresecureai-registry-cred
+    - name: "futuresecureai-registry-cred" # futuresecureai-registry-cred
 
   existingSecretsName: fsai-os-global-secrets
 

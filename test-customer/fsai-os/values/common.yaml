@@ -1,44 +1,101 @@
 global:
+  imageRegistry: futuresecureai
   imagePullSecrets:
-    - name: futuresecureai-registry-cred # futuresecureai-registry-cred
+    - name: futuresecureai-registry-cred
+  domain:
+    baseDomain: np.apac.linkgroup.corp
+    subdomains:
+      flowgen: flowgen-dev
+      fsaiflow: fsaiflow-dev
+      fsaiosapp: fsaiosapp-dev
+      flowsee: flowsee-dev
 
   defaultStorageClass: default
   storageClass: default
 
+  supabase:
+    namespace: mpms-dv-fsai
+    dbHost: mpms-dv-fsai-supabase-supabase-db-rw
+    adminUsername: supabase_admin
   ingress:
     enabled: true
     ingressClassName: nginx
 
-  existingSecrets: fsai-os-global-secrets
-
-worldStatesCitiesMigration:
-  secretName: fsai-os-global-secrets
-
 fsaiosapp:
   configMap:
-    # Controls Microsoft Graph AD user search functionality.
-    # When enabled (true): The application detects SSO users via Microsoft Graph API.
-    #                    Requires Microsoft Graph API credentials to be configured in FSAI O/S API.
-    # When disabled (false): Manual SSO selection is enabled via checkboxes during user creation.
-    #                     The application cannot automatically detect SSO status.
-    ENABLE_AD_SEARCH: "false"
-    USE_CASE_TEAMS_MAX_TAGS: "10"
-    NEXT_PUBLIC_USE_CASE_TEAMS_MAX_TAGS: "10"
+    fsaiFlow: "https://fsaiflow-dev.np.apac.linkgroup.corp"
+    flowGen: "https://flowgen-dev.np.apac.linkgroup.corp"
+    flowSee: "https://flowsee-dev.np.apac.linkgroup.corp"
+  ingress:
+    enabled: true
+    className: nginx
+
+fsaiosapi:
+  configMap:
+    ENVIRONMENT: development
+    SMTP_FROM: "platform@futuresecure.ai"
+    SMTP_HOST: "mail.smtp2go.com"
+    SMTP_PORT: "587"
+    SMTP_USER: "platform2@futuresecure.ai"
+    SUPABASE_PUBLIC_URL: "https://supabase-dev.np.apac.linkgroup.corp/"
 
 fsaiflow:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
   configMap:
-    S3_BUCKET_NAME: flowise
-    S3_REGION: ap-southeast-2
-    S3_ENDPOINT_URL: https://fsai-minio-hl.test-customer.svc.cluster.local:9000
-    S3_FORCE_PATH_STYLE: "false"
+    NODE_OPTIONS: "--max-old-space-size=3584"
+    #NODE_OPTIONS: |
+    #  --max-old-space-size=3584 --max-semi-space-size=256
+    STORAGE_TYPE: "s3"
+    S3_STORAGE_BUCKET_NAME: flowise
+    S3_ENDPOINT_URL: "https://myminio-hl.minio-tenant.svc.cluster.local:9000"
+    S3_FORCE_PATH_STYLE: "true"
+    S3_STORAGE_ASSUME_ROLE: "false"
+    S3_REGION: "ap-southeast-2"
     NODE_TLS_REJECT_UNAUTHORIZED: "0"
 
 flowgen:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+  replicaCount: 1
+  allowedOrigins: "https://fsaiosapp-dev.np.apac.linkgroup.corp"
+  worker:
+    replicaCount: 1
   configMap:
-    STORAGE_TYPE: s3
+    VITE_FLOW_SEE_BASE_URL: https://flowsee-dev.np.apac.linkgroup.corp
+    FLOW_SEE_BASE_URL: https://flowsee-dev.np.apac.linkgroup.corp
+    STORAGE_TYPE: "s3"
     S3_STORAGE_BUCKET_NAME: flowgen
-    S3_STORAGE_REGION: ap-southeast-2
-    S3_ENDPOINT_URL: https://fsai-minio-hl.test-customer.svc.cluster.local:9000
+    S3_ENDPOINT_URL: "https://myminio-hl.minio-tenant.svc.cluster.local:9000"
     S3_FORCE_PATH_STYLE: "true"
-    S3_STORAGE_FOLDER_PREFIX: flow-gen-blob-storage
+    S3_STORAGE_ASSUME_ROLE: "false"
     NODE_TLS_REJECT_UNAUTHORIZED: "0"
+
+flowsee:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+  replicaCount: 1
+  configMap:
+    ENABLED: "true"
+    NODE_ENV: "development"
+    HOSTNAME: "0.0.0.0"
+    EMAIL_FROM_ADDRESS: "platform@futuresecure.ai"
+    NEXTAUTH_URL: "https://fsaiosapp-dev.np.apac.linkgroup.corp"
+    TELEMETRY_ENABLED: "false"
+    NEXT_PUBLIC_SIGN_UP_DISABLED: "false"
+    ENABLE_EXPERIMENTAL_FEATURES: "false"
+    LANGFUSE_AUTO_POSTGRES_MIGRATION_DISABLED: "false"
+    AUTH_DISABLE_USERNAME_PASSWORD: "true"
+    AUTH_DISABLE_SIGNUP: "true"
+    REDIS_HOST: "flowsee-redis-primary"
+    REDIS_PORT: "6379"
+    DATABASE_PORT: "5432"
+    LANGFUSE_LOG_LEVEL: "debug"
+    CUSTOMER_DOMAIN_CSP: "localhost"
+
+valkey:
+  persistence:
+    enabled: false
