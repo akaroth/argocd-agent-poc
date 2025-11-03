@@ -30,6 +30,12 @@ kong:
       nginx.ingress.kubernetes.io/large-client-header-buffers: "4 64k"
       nginx.ingress.kubernetes.io/http2-max-field-size: "64k"
       nginx.ingress.kubernetes.io/http2-max-header-size: "256k"
+    hosts:
+      - host: supabase.local
+        paths:
+          - path: /
+            pathType: Prefix
+    tls: []
 
 config:
   smtp:
