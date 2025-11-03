@@ -30,7 +30,7 @@ manifests:
               - ServerSideApply=true
       # Customer Applications
       - name: {{ $valuesCommon.customer.name }}-secrets
-        namespace: {{ $valuesCommon.customer.name }}
+        namespace: fsai-os
         path:  {{ $valuesCommon.customer.name }}/secrets
         spec:
           syncPolicy:
