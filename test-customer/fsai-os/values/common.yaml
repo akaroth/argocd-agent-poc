@@ -71,7 +71,7 @@ flowgen:
     S3_ENDPOINT_URL: "https://myminio-hl.minio-tenant.svc.cluster.local:9000"
     S3_FORCE_PATH_STYLE: "true"
     S3_STORAGE_ASSUME_ROLE: "false"
-    NODE_TLS_REJECT_UNAUTHORIZED: "0"
+    NODE_TLS_REJECT_UNAUTHORIZED: "1"
 
 flowsee:
   ingress:
