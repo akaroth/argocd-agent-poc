@@ -14,7 +14,7 @@ global:
   storageClass: default
 
   supabase:
-    namespace: mpms-dv-fsai
+    namespace: fsai-os
     dbHost: supabase-supabase-db-rw
     adminUsername: supabase_admin
   ingress:
