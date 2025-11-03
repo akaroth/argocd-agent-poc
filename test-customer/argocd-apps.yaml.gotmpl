@@ -3,7 +3,7 @@
 manifests:
   {{ $valuesCommon.customer.name }}-apps:
     owner: {{ $valuesCommon.global.owner }}
-    project: {{ $valuesCommon.customer.name }}
+    project: default
     namespace: {{ $valuesCommon.customer.name }}
     source:
       repoURL: {{ $valuesCommon.global.repository.url }}
@@ -48,13 +48,11 @@ manifests:
               - CreateNamespace=true
       - name: {{ $valuesCommon.customer.name }}-minio-tenant
         path:  {{ $valuesCommon.customer.name }}/minio-tenant
-        namespace: minio-tenant
         spec:
           syncPolicy:
             automated: {}
             syncOptions:
               - ServerSideApply=true
-              - CreateNamespace=true
       - name: {{ $valuesCommon.customer.name }}-supabase
         namespace: fsai-os
         path:  {{ $valuesCommon.customer.name }}/supabase
