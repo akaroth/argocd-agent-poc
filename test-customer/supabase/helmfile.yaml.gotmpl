@@ -2,11 +2,11 @@
 {{ $gitDir := (exec "git" (list "rev-parse" "--show-toplevel") | trim) }}
 {{ readFile (printf "%s/helmfile/_helper/templates.yaml" $gitDir) }}
 
-{{ $environment := requiredEnv "ENVIRONMENT" }}
-{{ $baseDomain := requiredEnv "BASE_DOMAIN" }}
-
 releases:
   - <<: *common_releases
     values:
       - values/common.yaml
+  - <<: *common_namespace
+    name: addon-components
+    chart: ./components
 
