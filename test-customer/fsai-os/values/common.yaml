@@ -23,9 +23,9 @@ global:
 
 fsaiosapp:
   configMap:
-    fsaiFlow: "https://fsaiflow-dev.np.apac.linkgroup.corp"
-    flowGen: "https://flowgen-dev.np.apac.linkgroup.corp"
-    flowSee: "https://flowsee-dev.np.apac.linkgroup.corp"
+    fsaiFlow: "https://fsaiflow-dev.arun.io"
+    flowGen: "https://flowgen-dev.arun.io"
+    flowSee: "https://flowsee-dev.arun.io"
   ingress:
     enabled: true
     className: nginx
@@ -37,7 +37,7 @@ fsaiosapi:
     SMTP_HOST: "mail.smtp2go.com"
     SMTP_PORT: "587"
     SMTP_USER: "platform2@futuresecure.ai"
-    SUPABASE_PUBLIC_URL: "https://supabase-dev.np.apac.linkgroup.corp/"
+    SUPABASE_PUBLIC_URL: "https://supabase-dev.arun.io/"
 
 fsaiflow:
   ingress:
@@ -60,12 +60,12 @@ flowgen:
     enabled: true
     ingressClassName: nginx
   replicaCount: 1
-  allowedOrigins: "https://fsaiosapp-dev.np.apac.linkgroup.corp"
+  allowedOrigins: "https://fsaiosapp-dev.arun.io"
   worker:
     replicaCount: 1
   configMap:
-    VITE_FLOW_SEE_BASE_URL: https://flowsee-dev.np.apac.linkgroup.corp
-    FLOW_SEE_BASE_URL: https://flowsee-dev.np.apac.linkgroup.corp
+    VITE_FLOW_SEE_BASE_URL: https://flowsee-dev.arun.io
+    FLOW_SEE_BASE_URL: https://flowsee-dev.arun.io
     STORAGE_TYPE: "s3"
     S3_STORAGE_BUCKET_NAME: flowgen
     S3_ENDPOINT_URL: "https://myminio-hl.minio-tenant.svc.cluster.local:9000"
@@ -83,7 +83,7 @@ flowsee:
     NODE_ENV: "development"
     HOSTNAME: "0.0.0.0"
     EMAIL_FROM_ADDRESS: "platform@futuresecure.ai"
-    NEXTAUTH_URL: "https://fsaiosapp-dev.np.apac.linkgroup.corp"
+    NEXTAUTH_URL: "https://fsaiosapp-dev.arun.io"
     TELEMETRY_ENABLED: "false"
     NEXT_PUBLIC_SIGN_UP_DISABLED: "false"
     ENABLE_EXPERIMENTAL_FEATURES: "false"
