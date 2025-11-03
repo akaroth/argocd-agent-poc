@@ -1,13 +1,15 @@
 # load in yaml anchors for helmfiles `Release Template` feature
 {{ $gitDir := (exec "git" (list "rev-parse" "--show-toplevel") | trim) }}
 {{ readFile (printf "%s/helmfile/_helper/templates.yaml" $gitDir) }}
-{{- $valuesCommon := readFile "../metadata.yaml" | fromYaml }}
+{{ $environment := requiredEnv "ENVIRONMENT" }}
+{{ $baseDomain := requiredEnv "BASE_DOMAIN" }}
+{{ $minioApiHost := printf "minio-api-%s.%s" $environment $baseDomain }}
+{{ $minioConsoleHost := printf "minio-console-%s.%s" $environment $baseDomain }}
 
 repositories:
   - name: minio
     url: https://operator.min.io/
 
-{{ $customerName := $valuesCommon.customer.name }}
 releases:
   - <<: *common_releases
     values:
@@ -26,30 +28,27 @@ releases:
             labels:
               check: argo-check
             annotations:
-              {{ $minioApi := printf "minio-api-%s-%s.%s" $customerName (requiredEnv "ENVIRONMENT") (requiredEnv "BASE_DOMAIN") }}
-              external-dns.alpha.kubernetes.io/hostname: {{ $minioApi }}
+              external-dns.alpha.kubernetes.io/hostname: {{ $minioApiHost }}
               external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
               nginx.ingress.kubernetes.io/ssl-passthrough: "true"
               nginx.ingress.kubernetes.io/backend-protocol: https
-              nginx.ingress.kubernetes.io/upstream-vhost: {{ $minioApi }}
+              nginx.ingress.kubernetes.io/upstream-vhost: {{ $minioApiHost }}
 
-            host: {{ $minioApi }}
+            host: {{ $minioApiHost }}
             tls:
               - hosts:
-                - {{ $minioApi }}
+                - {{ $minioApiHost }}
 
           console:
             enabled: true
             ingressClassName: nginx
             annotations:
-              {{ $minioConsole := printf "minio-console-%s-%s.%s" $customerName (requiredEnv "ENVIRONMENT") (requiredEnv "BASE_DOMAIN") }}
-              external-dns.alpha.kubernetes.io/hostname: {{ $minioConsole }}
+              external-dns.alpha.kubernetes.io/hostname: {{ $minioConsoleHost }}
               external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
               nginx.ingress.kubernetes.io/ssl-passthrough: "true"
               nginx.ingress.kubernetes.io/backend-protocol: https
-              nginx.ingress.kubernetes.io/upstream-vhost: {{ $minioConsole }}
-            host: {{ $minioConsole }}
+              nginx.ingress.kubernetes.io/upstream-vhost: {{ $minioConsoleHost }}
+            host: {{ $minioConsoleHost }}
             tls:
               - hosts:
-                - {{ $minioConsole }}
-
+                - {{ $minioConsoleHost }}
