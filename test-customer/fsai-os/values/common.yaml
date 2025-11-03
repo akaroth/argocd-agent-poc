@@ -15,7 +15,7 @@ global:
 
   supabase:
     namespace: mpms-dv-fsai
-    dbHost: mpms-dv-fsai-supabase-supabase-db-rw
+    dbHost: supabase-supabase-db-rw
     adminUsername: supabase_admin
   ingress:
     enabled: true
