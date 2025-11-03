@@ -30,6 +30,7 @@ manifests:
               - ServerSideApply=true
       # Customer Applications
       - name: {{ $valuesCommon.customer.name }}-secrets
+        namespace: {{ $valuesCommon.customer.name }}
         path:  {{ $valuesCommon.customer.name }}/secrets
         spec:
           syncPolicy:
@@ -47,12 +48,14 @@ manifests:
               - ServerSideApply=true
               - CreateNamespace=true
       - name: {{ $valuesCommon.customer.name }}-minio-tenant
+        namespace: minio-tenant
         path:  {{ $valuesCommon.customer.name }}/minio-tenant
         spec:
           syncPolicy:
             automated: {}
             syncOptions:
               - ServerSideApply=true
+              - CreateNamespace=true
       - name: {{ $valuesCommon.customer.name }}-supabase
         namespace: fsai-os
         path:  {{ $valuesCommon.customer.name }}/supabase
