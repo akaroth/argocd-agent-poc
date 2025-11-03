@@ -1,6 +1,12 @@
 global:
   imagePullSecrets:
     - name: "futuresecureai-registry-cred" # futuresecureai-registry-cred
+  domain:
+    # BASE_DOMAIN must be provided by the claim command; default kept for safety
+    baseDomain: arun.io
+    subdomains:
+      # Default to "supabase" if SUPABASE_SUBDOMAIN is not set
+      supabase: supabase-dev
 
   existingSecretsName: fsai-os-global-secrets
 

@@ -3,7 +3,7 @@ global:
   imagePullSecrets:
     - name: futuresecureai-registry-cred
   domain:
-    baseDomain: np.apac.linkgroup.corp
+    baseDomain: arun.io
     subdomains:
       flowgen: flowgen-dev
       fsaiflow: fsaiflow-dev
