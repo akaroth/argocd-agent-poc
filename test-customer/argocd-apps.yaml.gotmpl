@@ -18,7 +18,6 @@ manifests:
             automated: {}
             syncOptions:
               - CreateNamespace=true
-              - ServerSideApply=true
       - name: minio-operator
         namespace: minio-system
         path: test-customer/minio-operator
@@ -27,7 +26,6 @@ manifests:
             automated: {}
             syncOptions:
               - CreateNamespace=true
-              - ServerSideApply=true
       # Applications
       - name: fsai-os-secrets
         namespace: fsai-os
@@ -36,7 +34,6 @@ manifests:
           syncPolicy:
             automated: {}
             syncOptions:
-              - ServerSideApply=true
               - CreateNamespace=true
       - name: fsai-os
         namespace: fsai-os
@@ -45,7 +42,6 @@ manifests:
           syncPolicy:
             automated: {}
             syncOptions:
-              - ServerSideApply=true
               - CreateNamespace=true
       - name: minio-tenant
         namespace: minio-tenant
@@ -54,7 +50,6 @@ manifests:
           syncPolicy:
             automated: {}
             syncOptions:
-              - ServerSideApply=true
               - CreateNamespace=true
       - name: supabase
         namespace: fsai-os
@@ -63,7 +58,6 @@ manifests:
           syncPolicy:
             automated: {}
             syncOptions:
-              - ServerSideApply=true
               - CreateNamespace=true
 
 
