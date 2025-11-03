@@ -1,6 +1,3 @@
-customer:
-  name: test-customer
-
 global:
   # Global configuration that can be shared across all components
   owner: akaroth

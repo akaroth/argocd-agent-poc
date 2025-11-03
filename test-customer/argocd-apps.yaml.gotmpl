@@ -1,64 +1,64 @@
 {{- $valuesCommon := readFile "metadata.yaml" | fromYaml }}
 
 manifests:
-  {{ $valuesCommon.customer.name }}-apps:
+  fsai-os-apps:
     owner: {{ $valuesCommon.global.owner }}
     project: default
-    namespace: {{ $valuesCommon.customer.name }}
+    namespace: fsai-os
     source:
       repoURL: {{ $valuesCommon.global.repository.url }}
       targetRevision: {{ $valuesCommon.global.repository.branch }}
     applications:
       # Platform Operators (deploy first)
-      - name: {{ $valuesCommon.customer.name }}-cnpg-operator
+      - name: cnpg-operator
         namespace: cnpg-system
-        path:  {{ $valuesCommon.customer.name }}/cnpg-system
+        path: test-customer/cnpg-system
         spec:
           syncPolicy:
             automated: {}
             syncOptions:
               - CreateNamespace=true
               - ServerSideApply=true
-      - name: {{ $valuesCommon.customer.name }}-minio-operator
+      - name: minio-operator
         namespace: minio-system
-        path:  {{ $valuesCommon.customer.name }}/minio-operator
+        path: test-customer/minio-operator
         spec:
           syncPolicy:
             automated: {}
             syncOptions:
               - CreateNamespace=true
               - ServerSideApply=true
-      # Customer Applications
-      - name: {{ $valuesCommon.customer.name }}-secrets
+      # Applications
+      - name: fsai-os-secrets
         namespace: fsai-os
-        path:  {{ $valuesCommon.customer.name }}/secrets
+        path: test-customer/secrets
         spec:
           syncPolicy:
             automated: {}
             syncOptions:
               - ServerSideApply=true
               - CreateNamespace=true
-      - name: {{ $valuesCommon.customer.name }}-fsai-os
+      - name: fsai-os
         namespace: fsai-os
-        path:  {{ $valuesCommon.customer.name }}/fsai-os
+        path: test-customer/fsai-os
         spec:
           syncPolicy:
             automated: {}
             syncOptions:
               - ServerSideApply=true
               - CreateNamespace=true
-      - name: {{ $valuesCommon.customer.name }}-minio-tenant
+      - name: minio-tenant
         namespace: minio-tenant
-        path:  {{ $valuesCommon.customer.name }}/minio-tenant
+        path: test-customer/minio-tenant
         spec:
           syncPolicy:
             automated: {}
             syncOptions:
               - ServerSideApply=true
               - CreateNamespace=true
-      - name: {{ $valuesCommon.customer.name }}-supabase
+      - name: supabase
         namespace: fsai-os
-        path:  {{ $valuesCommon.customer.name }}/supabase
+        path: test-customer/supabase
         spec:
           syncPolicy:
             automated: {}
