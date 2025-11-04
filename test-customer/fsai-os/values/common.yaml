@@ -2,7 +2,7 @@ global:
   imageRegistry: futuresecureai
   imagePullSecrets:
     - name: futuresecureai-registry-cred
-  existingSecretsName: fsai-os-global-secrets
+  existingSecrets: fsai-os-global-secrets
   domain:
     baseDomain: arun.io
     subdomains:
@@ -23,7 +23,6 @@ global:
     ingressClassName: nginx
 
 fsaiosapp:
-  existingSecrets: fsai-os-global-secrets
   configMap:
     fsaiFlow: "https://fsaiflow-dev.arun.io"
     flowGen: "https://flowgen-dev.arun.io"
@@ -33,7 +32,6 @@ fsaiosapp:
     className: nginx
 
 fsaiosapi:
-  existingSecrets: fsai-os-global-secrets
   configMap:
     ENVIRONMENT: development
     SMTP_FROM: "platform@futuresecure.ai"
@@ -43,7 +41,6 @@ fsaiosapi:
     SUPABASE_PUBLIC_URL: "https://supabase-dev.arun.io/"
 
 fsaiflow:
-  existingSecrets: fsai-os-global-secrets
   ingress:
     enabled: true
     ingressClassName: nginx
@@ -60,7 +57,6 @@ fsaiflow:
     NODE_TLS_REJECT_UNAUTHORIZED: "0"
 
 flowgen:
-  existingSecrets: fsai-os-global-secrets
   ingress:
     enabled: true
     ingressClassName: nginx
@@ -79,7 +75,6 @@ flowgen:
     NODE_TLS_REJECT_UNAUTHORIZED: "1"
 
 flowsee:
-  existingSecrets: fsai-os-global-secrets
   ingress:
     enabled: true
     ingressClassName: nginx
