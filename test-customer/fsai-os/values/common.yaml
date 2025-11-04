@@ -2,6 +2,7 @@ global:
   imageRegistry: futuresecureai
   imagePullSecrets:
     - name: futuresecureai-registry-cred
+  existingSecretsName: fsai-os-global-secrets
   domain:
     baseDomain: arun.io
     subdomains:
