@@ -17,7 +17,7 @@ global:
   supabase:
     namespace: fsai-os
     dbHost: supabase-supabase-db-rw
-    adminUsername: supabase_admin
+    adminUsername: postgres
   ingress:
     enabled: true
     ingressClassName: nginx
