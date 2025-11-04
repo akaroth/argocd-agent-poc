@@ -1,6 +1,6 @@
 default:
   release_name: fsai-valkey
-  chart: fsai-apps/valkey-bitnami
+  chart: oci://registry-1.docker.io/futuresecureai/valkey-bitnami
   version: 2.2.4
   namespace: fsai-os
 

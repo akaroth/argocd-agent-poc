@@ -2,9 +2,7 @@
 {{ $gitDir := (exec "git" (list "rev-parse" "--show-toplevel") | trim) }}
 {{ readFile (printf "%s/helmfile/_helper/templates.yaml" $gitDir) }}
 
-repositories:
-  - name: fsai-apps
-    url: oci://registry-1.docker.io/futuresecureai
+# No repository section needed for OCI charts - referenced directly in versions.yaml
 
 releases:
   - <<: *common_releases
