@@ -1,0 +1,6 @@
+default:
+  release_name: fsai-valkey
+  chart: fsai-apps/valkey-bitnami
+  version: 2.2.4
+  namespace: fsai-os
+

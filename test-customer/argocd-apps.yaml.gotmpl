@@ -35,6 +35,14 @@ manifests:
             automated: {}
             syncOptions:
               - CreateNamespace=true
+      - name: valkey
+        namespace: fsai-os
+        path: test-customer/valkey
+        spec:
+          syncPolicy:
+            automated: {}
+            syncOptions:
+              - CreateNamespace=true
       - name: fsai-os
         namespace: fsai-os
         path: test-customer/fsai-os

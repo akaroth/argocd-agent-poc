@@ -1,0 +1,10 @@
+persistence:
+  enabled: false
+
+# Basic Valkey configuration for development
+auth:
+  enabled: false
+
+# Single replica for development
+replicaCount: 1
+
